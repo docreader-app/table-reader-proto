@@ -1,14 +1,26 @@
 import streamlit as st
 from streamlit import session_state as ss
+import streamlit_authenticator as stauth
 import pandas as pd
+from supabase import create_client, Client
+from st_login_form import login_form
 
-st.title("Data Extraction Prototype")
+@st.cache_resource
+def init_connection():
+    url = st.secrets["SUPABASE_URL"]
+    key = st.secrets["SUPABASE_KEY"]
+    return create_client(url, key)
 
-if 'pdf_ref' not in ss:
-    ss.pdf_ref = None
+supabase = init_connection()
 
-uploaded_f = st.file_uploader("Choose a PDF file", type=["pdf"])
+client = login_form()
 
-if uploaded_f is not None:
-    ss.pdf = uploaded_f
-    ss.pdf_ref = ss.pdf
+if st.session_state["authenticated"]:
+    if st.session_state["username"]:
+        st.success(f"Welcome {st.session_state['username']}")
+        st.switch_page("pages/Initial_Page.py")
+    else:
+        st.success("Welcome guest")
+        st.switch_page("pages/Initial_Page.py")
+else:
+    st.error("Not authenticated")
