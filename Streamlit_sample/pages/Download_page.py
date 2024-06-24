@@ -1,5 +1,6 @@
 import streamlit as st 
 import pandas as pd
+import os
 
 st.set_page_config(layout="wide")
 
@@ -17,8 +18,9 @@ text-align: center
 </style>    
 """
 st.markdown(title_alignment, unsafe_allow_html=True)
+path = os.path.join("pages", "output.xlsx")
 
-output = pd.read_excel("pages/output.xlsx")
+output = pd.read_excel(path)
 st.dataframe(output, height = 500)  
 
 st.download_button(":green[Download CSV]", convert_csv(output), file_name="output_df.csv", use_container_width = True)

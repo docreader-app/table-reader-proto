@@ -4,6 +4,7 @@ import pandas as pd
 from streamlit_pdf_viewer import pdf_viewer
 import time
 import base64
+import os
 
 st.set_page_config(layout="wide")
 
@@ -52,8 +53,8 @@ if ss.pdf_ref:
         </style>    
         """
         st.markdown(title_alignment, unsafe_allow_html=True)
-        
-        output = pd.read_excel("pages/output.xlsx")
+        path = os.path.join("pages", "output.xlsx")
+        output = pd.read_excel(path)
         st.dataframe(output, height = 500)        
     col3, col4 = st.columns([15, 15], gap="large")
     with col3:
