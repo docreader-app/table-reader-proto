@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit import session_state as ss
 import pandas as pd
 from streamlit_pdf_viewer import pdf_viewer
+import time
 import base64
 
 st.set_page_config(layout="wide")
@@ -40,7 +41,6 @@ if ss.pdf_ref:
         st.markdown(pdf_display, unsafe_allow_html=True)
         # displayPDF()
         
-        st.button(':blue-background[Request Human Verification]')
     with col2:
         st.header("Preliminary output")
         
@@ -54,8 +54,21 @@ if ss.pdf_ref:
         st.markdown(title_alignment, unsafe_allow_html=True)
         
         output = pd.read_excel("pages/output.xlsx")
-        st.dataframe(output, height = 500)
-        st.button(':green-background[Approve]')
+        st.dataframe(output, height = 500)        
+    col3, col4 = st.columns([15, 15], gap="large")
+    with col3:
+        if st.button(':blue[Request Human Verification]', use_container_width=True):
+            st.success("Human verification requested. We will inform you the result once it becomes available!")
+            st.success("We will return to the home page in 5 seconds")
+            time.sleep(5)
+            st.switch_page("pages/Initial_Page.py")
+    with col4:
+        if st.button(':green[Approve]', use_container_width=True):
+            st.success("Congratulations! Your data is available!")
+            st.success("We will go to the download page in 5 seconds")
+            time.sleep(5)
+            st.switch_page("pages/Download_page.py")
+            
 
 
 # if uploaded_file is not None:
