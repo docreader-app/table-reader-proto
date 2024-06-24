@@ -58,11 +58,11 @@ if ss.pdf_ref:
         st.dataframe(output, height = 500)        
     col3, col4 = st.columns([15, 15], gap="large")
     with col3:
-        if st.button(':blue[Request Human Verification]', use_container_width=True):
-            st.success("Human verification requested. We will inform you the result once it becomes available!")
-            st.success("We will return to the home page in 5 seconds")
-            time.sleep(5)
-            st.switch_page("pages/Initial_Page.py")
+        if st.button(':blue[Require Changes(With Human Verification)]', use_container_width=True):
+            st.success("Changes requested!")
+            st.success("Heading to edit page in 3 seconds")
+            time.sleep(3)
+            st.switch_page("pages/Initial_Adjustment.py")
     with col4:
         if st.button(':green[Approve]', use_container_width=True):
             st.success("Congratulations! Your data is available!")
