@@ -102,4 +102,5 @@ show_diff(source_df=output, modified_df=editor_df, editor_key=st.session_state["
 
 if st.button(':green[Finish changes]', use_container_width=True):
     st.success("Changes recorded. We will send your data for human verification and will let you know the results once it becomes available!")
+    editor_df.to_csv("Edited_data.csv")
     st.st.switch_page("pages/Initial_Page.py")
