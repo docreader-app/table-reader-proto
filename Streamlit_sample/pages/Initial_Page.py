@@ -12,4 +12,4 @@ uploaded_f = st.file_uploader("Choose a PDF file", type=["pdf"])
 if uploaded_f is not None:
     ss.pdf = uploaded_f
     ss.pdf_ref = ss.pdf
-    st.switch_page("pages/Result_check.py")
+    st.switch_page("pages/Initial_Result_check.py")
