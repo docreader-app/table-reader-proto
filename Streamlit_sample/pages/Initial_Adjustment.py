@@ -10,7 +10,7 @@ import os
 
 
 st.set_page_config(layout="wide")
-
+###The following code only works with streamlit data_edit tool.
 def highlight_changes(val):
     color = f"color: orange;" if val else "color:lightgray;"
     background = f"background-color:lightgray;" if val else ""
@@ -59,6 +59,17 @@ def show_diff(
     st.dataframe(inserted, use_container_width=True)
     st.subheader("Deleted Rows")
     st.dataframe(output.iloc[editor_key.get("deleted_rows")], use_container_width=True)
+    
+    
+###The following code works with AG Grid
+# def add_column(Input, ColumnName):
+    
+    
+# def add_row(Input):
+#     Input.loc[len(Input.data)] = new_row_list
+#     #df3 = pd.concat([df, df2], axis=1)
+#     # Display the DataFrame using AgGrid
+#     AgGrid(st.session_state.data)
 
 
 st.write("Change the output by clicking the cell you want to change!")
@@ -94,6 +105,10 @@ with col2:
     path = os.path.join("pages", "output.xlsx")
     output = pd.read_excel(path)
     editor_df = st.data_editor(output, key = "output_edit_ke", height = 500, num_rows="dynamic")
+    # AgGrid(output, editable=True)
+    # if st.button("Add Row"):
+        
+
     
     
 #Functionality needed: make the edited cells lights up with red colors to signal that they are changed!
