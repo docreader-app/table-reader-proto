@@ -2,7 +2,11 @@ import streamlit as st
 from streamlit import session_state as ss
 
 st.title("Data Extraction Prototype")
+st.header("Hello! Please upload your file, or click Manager Interface to get started!")
 st.write("This is a prototype. No API has been implemented yet")
+
+if st.button("Manager Interface"):
+    st.switch_page("pages/Manager_dashboard.py")
 
 if 'pdf_ref' not in ss:
     ss.pdf_ref = None
