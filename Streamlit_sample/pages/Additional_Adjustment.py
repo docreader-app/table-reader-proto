@@ -7,6 +7,8 @@ from st_aggrid import AgGrid, GridOptionsBuilder
 import time
 import base64
 import os
+import pymupdf
+import json
 
 
 st.set_page_config(layout="wide")
@@ -87,7 +89,7 @@ with col1:
     """
     st.markdown(title_alignment, unsafe_allow_html=True)
         
-    base64_pdf = base64.b64encode(ss.pdf_ref.getvalue()).decode('utf-8')
+    base64_pdf = base64.b64encode(ss.pdf_ref).decode('utf-8')
     pdf_display = f'<iframe width="100%" height="500" src="data:application/pdf;base64,{base64_pdf}#zoom=FitH&view=fit"" type="application/pdf"></iframe>'
     st.markdown(pdf_display, unsafe_allow_html=True)
     # displayPDF()
@@ -102,8 +104,8 @@ with col2:
     </style>    
     """
     st.markdown(title_alignment, unsafe_allow_html=True)
-    path = os.path.join("pages", "output.xlsx")
-    output = pd.read_excel(path)
+    path = os.path.join("Users/", st.session_state['username'], st.session_state.review_docname, "Annotated_data.csv")
+    output = pd.read_csv(path)
     editor_df = st.data_editor(output, key = "output_edit_ke", height = 500, num_rows="dynamic")
     # AgGrid(output, editable=True)
     # if st.button("Add Row"):
@@ -117,5 +119,23 @@ show_diff(source_df=output, modified_df=editor_df, editor_key=st.session_state["
 
 if st.button(':green[Finish changes]', use_container_width=True):
     st.success("Changes recorded. We will send your data for human verification and will let you know the results once it becomes available!")
-    editor_df.to_csv("Edited_data.csv")
-    st.st.switch_page("pages/Initial_Page.py")
+    
+    Additional_edit_output_csv_dir = os.path.join("Users/", st.session_state['username'], st.session_state.review_docname, 'Additional_Edited_data.csv') 
+    editor_df.to_csv(Additional_edit_output_csv_dir)
+    
+    json_file_path = os.path.join("Users/", st.session_state['username'],'file_list.json')  # File path for storing/retrieving data
+    # Check if the JSON file exists
+    if os.path.exists(json_file_path):
+        # File exists, read data from JSON file
+        with open(json_file_path, 'r') as file:
+            file_list = json.load(file)
+    
+    new_file_request = {"Name": st.session_state.review_docname, "Status": "Verifying"}
+    for index, item in enumerate(st.session_state.my_list):
+        if item["Name"] == st.session_state.review_docname:
+            item["Status"] = "Verifying"
+    
+    with open(json_file_path, 'w') as file:
+        json.dump(file_list, file)
+    
+    st.switch_page("pages/Initial_Page.py")

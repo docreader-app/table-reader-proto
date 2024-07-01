@@ -5,14 +5,18 @@ from streamlit_pdf_viewer import pdf_viewer
 import time
 import base64
 import os
+import pymupdf
 
 st.set_page_config(layout="wide")
 
 st.title("Here is the result from the Human Verifier(Marked in red color)")
 
+input_ref_pdf_dir = os.path.join("Users/", st.session_state['username'], st.session_state.review_docname, st.session_state.review_docname)
+ss.pdf_ref = (pymupdf.open(input_ref_pdf_dir)).tobytes()  # or pymupdf.Document(filename)
+
 def displayPDF():
     # Opening file from file path
-    base64_pdf = base64.b64encode(ss.pdf_ref.getvalue()).decode('utf-8')
+    base64_pdf = base64.b64encode(ss.pdf_ref).decode('utf-8')
 
     # Embedding PDF in HTML
     pdf_display =  f"""<embed
@@ -39,7 +43,7 @@ if ss.pdf_ref:
         """
         st.markdown(title_alignment, unsafe_allow_html=True)
         
-        base64_pdf = base64.b64encode(ss.pdf_ref.getvalue()).decode('utf-8')
+        base64_pdf = base64.b64encode(ss.pdf_ref).decode('utf-8')
         pdf_display = f'<iframe width="100%" height="500" src="data:application/pdf;base64,{base64_pdf}#zoom=FitH&view=fit"" type="application/pdf"></iframe>'
         st.markdown(pdf_display, unsafe_allow_html=True)
         # displayPDF()
@@ -55,8 +59,8 @@ if ss.pdf_ref:
         </style>    
         """
         st.markdown(title_alignment, unsafe_allow_html=True)
-        path = os.path.join("pages", "output.xlsx")
-        output = pd.read_excel(path)
+        path = os.path.join("Users/", st.session_state['username'], st.session_state.review_docname, "Annotated_data.csv")
+        output = pd.read_csv(path)
         st.dataframe(output, height = 500)        
     col3, col4 = st.columns([15, 15], gap="large")
     with col3:

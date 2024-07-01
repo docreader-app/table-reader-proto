@@ -7,6 +7,8 @@ from st_aggrid import AgGrid, GridOptionsBuilder
 import time
 import base64
 import os
+import json
+import fitz
 
 
 st.set_page_config(layout="wide")
@@ -117,5 +119,44 @@ show_diff(source_df=output, modified_df=editor_df, editor_key=st.session_state["
 
 if st.button(':green[Finish changes]', use_container_width=True):
     st.success("Changes recorded. We will send your data for human verification and will let you know the results once it becomes available!")
-    editor_df.to_csv("Edited_data.csv")
-    st.st.switch_page("pages/Initial_Page.py")
+    json_file_path = os.path.join("Users/", st.session_state['username'],'file_list.json')  # File path for storing/retrieving data
+
+    # Check if the JSON file exists
+    if os.path.exists(json_file_path):
+        # File exists, read data from JSON file
+        with open(json_file_path, 'r') as file:
+            file_list = json.load(file)
+            
+    pdf_file_name = ss.pdf_ref.name
+    new_file_request = {"Name": pdf_file_name, "Status": "Verifying"}
+    
+    file_list.append(new_file_request)
+    with open(json_file_path, 'w') as file:
+        json.dump(file_list, file)
+       
+    #Export the file 
+    edited_output_csv_dir = os.path.join("Users/", st.session_state['username'], pdf_file_name, 'Edited_data.csv') 
+    output_csv_dir = os.path.join("Users/", st.session_state['username'], pdf_file_name, 'OCR_output_data.csv')
+    output_pdf_dir = os.path.join("Users/", st.session_state['username'], pdf_file_name, pdf_file_name)
+    parent_folder_dir = os.path.join("Users/", st.session_state['username'], pdf_file_name)
+    
+    # Check if the folder already exists
+    if os.path.exists(parent_folder_dir):
+        print(f"Folder already exists for file at: {parent_folder_dir}")
+    else:
+        try:
+            os.makedirs(parent_folder_dir)
+        except OSError as e:
+            st.write(f"Failed to create directory for file '{pdf_file_name}': {e}")
+    
+    output.to_csv(output_csv_dir)
+    editor_df.to_csv(edited_output_csv_dir)
+        
+    #Export the pdf file
+    pdf_holder = fitz.open(stream=ss.pdf_ref.getvalue())
+    pdf_holder.save(output_pdf_dir)
+
+    ##Add MTurk API Here
+    
+    
+    st.switch_page("pages/Initial_Page.py")
