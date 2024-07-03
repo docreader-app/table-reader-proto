@@ -3,10 +3,6 @@ streamlit_pdf_viewer
 pymupdf
 numpy
 streamlit-aggrid
-<<<<<<< HEAD
-time
-=======
->>>>>>> 737e70e65e12f5c7d4052bb4913fb8c0caa27765
 fitz
 supabase
 streamlit-authenticator==0.1.4
