@@ -56,20 +56,22 @@ def create_folder_in_folder(folder_name, parent_folder_id):
     print(f"An error occurred: {error}")
     return None
 
-def check_folder_exists(service, parent_folder_id, folder_name):
-  """Checks if a folder exists in a given parent folder.
-
-  Args:
-    service: The authorized Google Drive API service.
-    parent_folder_id: The ID of the parent folder.
-    folder_name: The name of the folder to check.
-
-  Returns:
-    True if the folder exists, False otherwise.
-  """
-  query = f"'{parent_folder_id}' in parents and name = '{folder_name}' and mimeType = 'application/vnd.google-apps.folder'"
-  results = service.files().list(q=query, fields='files(id)').execute()
-  return len(results.get('files', [])) > 0
+def folder_exists(folder_name, parent_id=None):
+    query = f"name='{folder_name}' and mimeType='application/vnd.google-apps.folder'"
+    if parent_id:
+        query += f" and '{parent_id}' in parents"
+    
+    try:
+        results = service.files().list(q=query, fields="files(id, name)").execute()
+        files = results.get('files', [])
+        
+        if files:
+            return True, files[0]['id']
+        else:
+            return False, None
+    except HttpError as error:
+        print(f'An error occurred: {error}')
+        return False, None
 
 
 @st.cache_resource
@@ -102,7 +104,7 @@ service = build('drive', 'v3', credentials=creds)
 for username in username_list:
     
     # Check if the folder already exists
-    if check_folder_exists(service, base_directory, username):
+    if folder_exists(username, base_directory):
         print(f"Folder already exists for user '{username}' at: {base_directory}")
     else:
         try:
