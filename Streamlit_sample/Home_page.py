@@ -43,7 +43,7 @@ def create_folder_in_folder(folder_name, parent_folder_id):
     service = build("drive", "v3", credentials=creds)
     file_metadata = {
         "name": folder_name,
-        "parent": [parent_folder_id], 
+        "parents": [parent_folder_id], 
         "mimeType": "application/vnd.google-apps.folder",
     }
 
