@@ -1,6 +1,5 @@
 pandas
 streamlit_pdf_viewer
-time
 base64
 os
 pymupdf
