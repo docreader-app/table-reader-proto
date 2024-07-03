@@ -107,11 +107,8 @@ for username in username_list:
     if folder_exists(username, base_directory):
         print(f"Folder already exists for user '{username}' at: {base_directory}")
     else:
-        try:
-            create_folder_in_folder(username, base_directory)
-            print(f"Folder created for user '{username}' at: {base_directory}")
-        except OSError as e:
-            print(f"Failed to create directory for user '{username}': {e}")
+        create_folder_in_folder(username, base_directory)
+        print(f"Folder created for user '{username}' at: {base_directory}")
 
 if st.session_state["authenticated"]:
     if st.session_state["username"]:
