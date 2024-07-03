@@ -8,6 +8,8 @@ import google.auth
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from google.oauth2.credentials import Credentials
+import os
+import json
 
 def create_folder(folder_name):
   """Create a folder and prints the folder ID
@@ -73,6 +75,11 @@ def folder_exists(folder_name, parent_id=None):
     except HttpError as error:
         print(f'An error occurred: {error}')
         return False, None
+    
+def convert_to_dict(data):
+    if isinstance(data, Mapping):
+        return {k: convert_to_dict(v) for k, v in data.items()}
+    return data
 
 
 @st.cache_resource
@@ -90,6 +97,8 @@ response = supabase.table("users").select("username").execute()
 
 # Base directory where folders will be created
 base_directory = '102hqOG363E-LM0bKUoQY9RjJkYyOwk4w'
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = json.dumps(convert_to_dict(st.secrets["web"]))
 
 data=response.data
 username_list = []
