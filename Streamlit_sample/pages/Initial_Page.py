@@ -15,7 +15,7 @@ st.header("Hello! Please upload your file, or click Manager Interface to get sta
 st.write("This is a prototype. No API has been implemented yet")
 
 #Create the list of dictionaries for storing the data that has been sent for review requests
-json_file_path = os.path.join("Users/", st.session_state['username'],'file_list.json')  # File path for storing/retrieving data
+json_file_path = os.path.join("Users", st.session_state['username'],'file_list.json')  # File path for storing/retrieving data
 
 # Check if the JSON file exists
 if os.path.exists(json_file_path):
