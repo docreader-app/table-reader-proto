@@ -32,7 +32,7 @@ def create_folder(folder_name):
     print(f"An error occurred: {error}")
     return None
 
-def create_folder_in_folder(folder_name, parent_folder_id):
+def create_folder_in_folder(folder_name, parent_id):
   """Create a folder and prints the folder ID
   Returns : Folder Id
   """
@@ -42,15 +42,16 @@ def create_folder_in_folder(folder_name, parent_folder_id):
     # create drive api client
     service = build("drive", "v3", credentials=creds)
     file_metadata = {
-        "name": folder_name,
-        "parents": [parent_folder_id], 
-        "mimeType": "application/vnd.google-apps.folder",
+        'name': folder_name,
+        'mimeType': 'application/vnd.google-apps.folder',
+        'parents': [parent_id]  # Specify the parent folder ID here
     }
-
-    # pylint: disable=maybe-no-member
-    file = service.files().create(body=file_metadata, fields="id").execute()
-    print(f'Folder ID: "{file.get("id")}".')
-    return file.get("id")
+    try:
+        folder = service.files().create(body=file_metadata, fields='id').execute()
+        return folder.get('id')
+    except Exception as e:
+        print(f'An error occurred: {e}')
+        return None
 
   except HttpError as error:
     print(f"An error occurred: {error}")
