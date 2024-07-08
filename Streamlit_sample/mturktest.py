@@ -6,13 +6,13 @@ import json
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv('awskeys.env')
 
 ACCESS_KEY = os.getenv('ACCESS_KEY')
 SECRET_KEY = os.getenv('SECRET_ACCESS_KEY')
 
-os.environ['AWS_ACCESS_KEY_ID'] = 'AKIA3FLDZUYKEL7HTRVK'
-os.environ['AWS_SECRET_ACCESS_KEY'] = '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'
+os.environ['AWS_ACCESS_KEY_ID'] = ACCESS_KEY
+os.environ['AWS_SECRET_ACCESS_KEY'] = SECRET_KEY
 
 environments = {
             "live": {
@@ -39,14 +39,20 @@ def create_hit(
     create_hits_in_live = create_in_live
     mturk_environment = environments["live"] if create_hits_in_live else environments["sandbox"]
     endpoint_url = mturk_environment['endpoint']
+    sandbox_endpoint = "https://mturk-requester-sandbox.us-east-1.amazonaws.com"
 
     client = boto3.client(
         'mturk',
-        endpoint_url=endpoint_url,
+        endpoint_url=sandbox_endpoint,
         region_name=region,
         aws_access_key_id=ACCESS_KEY,
         aws_secret_access_key=SECRET_KEY,
     )
+
+    user_balance = client.get_account_balance()
+    # In Sandbox this always returns $10,000. In live, it will be your acutal balance.
+    print("Your account balance is {}".format(user_balance['AvailableBalance']))
+
 
     question_sample = open("mturkquestion.xml", "r").read()
 
@@ -65,10 +71,7 @@ def create_hit(
         # Extract the HIT ID from the response
         hit_id = response['HIT']['HITId']
         print(f"HIT created successfully with HIT ID: {hit_id}")
-        user_balance = client.get_account_balance()
-
-        # In Sandbox this always returns $10,000. In live, it will be your acutal balance.
-        print("Your account balance is {}".format(user_balance['AvailableBalance']))
+        
 
         print ("\nYou can work the HIT here:")
         hit_type_id = response['HIT']['HITTypeId']
@@ -120,3 +123,5 @@ def get_current_hits(check_for_live=False, region='us-east-1'):
 #     hit_id = create_hit()
 
 #     print(hit_id)
+
+# create_hit()

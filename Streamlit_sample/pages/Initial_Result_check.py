@@ -7,6 +7,8 @@ import base64
 import os
 import fitz
 
+import mturktest as mt
+
 st.set_page_config(layout="wide")
 
 st.write(ss.pdf_ref)
@@ -61,14 +63,20 @@ if ss.pdf_ref:
         st.markdown(title_alignment, unsafe_allow_html=True)
         path = os.path.join("pages", "output.xlsx")
         output = pd.read_excel(path)
-        st.dataframe(output, height = 500)        
+        st.dataframe(output, height = 500)       
+
     col3, col4 = st.columns([15, 15], gap="large")
     with col3:
         if st.button(':blue[Require Changes(With Human Verification)]', use_container_width=True):
+            hit_id, link = mt.create_hit()
+            if 'data_list' not in st.session_state:
+                # Initialize the session variable with an empty list of dictionaries
+                st.session_state['data_list'] = []
+            st.session_state['data_list'].append({'name': hit_id, 'url': link})
             st.success("Changes requested!")
-            st.success("Heading to edit page in 3 seconds")
-            time.sleep(3)
-            st.switch_page("pages/Initial_Adjustment.py")
+            # st.success("Heading to edit page in 3 seconds")
+            # time.sleep(3)
+            # st.switch_page("pages/Initial_Adjustment.py")
     with col4:
         if st.button(':green[Approve]', use_container_width=True):
             st.success("Congratulations! Your data is available!")

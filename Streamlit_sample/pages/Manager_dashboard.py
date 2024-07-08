@@ -12,9 +12,9 @@ import os
 st.title("Manager Dashboard")
 
 if st.session_state['username']:
-    st.header(f"Welcome, {st.session_state['username']}")
+    st.title(f"Welcome, {st.session_state['username']}")
 
-
+    st.header('Your Files')
     col1, col2, col3 = st.columns([9, 9, 3])
     with col1:
         st.write("File Name")
@@ -35,6 +35,14 @@ if st.session_state['username']:
             col2.markdown(f'{item["Status"]}', unsafe_allow_html=True)
         else:
             emp.empty()
+    
+    st.header('Your Tasks')
+    if st.session_state['data_list']:
+        st.write("Current data list:")
+        df = pd.DataFrame(st.session_state['data_list'])
+        st.table(df)
+    else:
+        st.write("No data available.")
     
 else:
     st.warning("Sorry, guest don't have the feature of Manager Dashboard. Please refresh, head to the login page, and login to continue!")
