@@ -22,12 +22,14 @@ import bb_to_csv as bb_to_csv
 
 url = "https://app.nanonets.com/api/v2/OCR/FullText"
 
-def get_ocr_df(filename = 'CBP_Manual_1948_part1-pages.pdf'):
+def get_ocr_df(file, filename = 'CBP_Manual_1948_part1-pages.pdf'):
   print("file = ", filename)
   payload={}
-  files=[('file',('FILE_NAME',open(filename,'rb'),'application/pdf'))]
+  # files=[('file',('FILE_NAME',open(filename,'rb'),'application/pdf'))]
   headers = {}
 
+  inputpdf = file
+  files=[('file',('FILE_NAME',inputpdf,'application/pdf'))]
   response = requests.request("POST", url, headers=headers, data=payload, files=files, auth=requests.auth.HTTPBasicAuth('72decf1a-3823-11ef-8e55-b6da12066c86', ''))
 
   # Convert the JSON string to a Python dictionary
@@ -49,4 +51,4 @@ def get_ocr_df(filename = 'CBP_Manual_1948_part1-pages.pdf'):
 
   return ocr_df
 
-get_ocr_df()
+# get_ocr_df()

@@ -63,7 +63,7 @@ if ss.pdf_ref:
         """
         st.markdown(title_alignment, unsafe_allow_html=True)
         try:
-            output = nano.get_ocr_df()
+            output = nano.get_ocr_df(file=ss.pdf_ref)
         except Exception as e:
             print(e)
             path = os.path.join("pages", "output.xlsx")
@@ -73,16 +73,10 @@ if ss.pdf_ref:
 
     col3, col4 = st.columns([15, 15], gap="large")
     with col3:
-        if st.button(':blue[Require Changes(With Human Verification)]', use_container_width=True):
-            hit_id, link = mt.create_hit()
-            if 'data_list' not in st.session_state:
-                # Initialize the session variable with an empty list of dictionaries
-                st.session_state['data_list'] = []
-            st.session_state['data_list'].append({'name': hit_id, 'url': link})
-            st.success("Changes requested!")
-            # st.success("Heading to edit page in 3 seconds")
-            # time.sleep(3)
-            # st.switch_page("pages/Initial_Adjustment.py")
+        if st.button(':blue[Require Changes(With Human Verification)]', use_container_width=True):           
+            st.success("Redirecting to Adjustment page...")
+            time.sleep(2)
+            st.switch_page("pages/Initial_Adjustment.py")
     with col4:
         if st.button(':green[Approve]', use_container_width=True):
             st.success("Congratulations! Your data is available!")

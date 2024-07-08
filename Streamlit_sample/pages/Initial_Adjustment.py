@@ -9,6 +9,7 @@ import base64
 import os
 import json
 import fitz
+import mturktest as mt
 
 
 st.set_page_config(layout="wide")
@@ -157,6 +158,12 @@ if st.button(':green[Finish changes]', use_container_width=True):
     pdf_holder.save(output_pdf_dir)
 
     ##Add MTurk API Here
-    
-    
+
+    hit_id, link = mt.create_hit()
+    if 'data_list' not in st.session_state:
+        # Initialize the session variable with an empty list of dictionaries
+        st.session_state['data_list'] = []
+    st.session_state['data_list'].append({'name': hit_id, 'url': link})
+    st.success("Changes requested!")
+
     st.switch_page("pages/Initial_Page.py")
