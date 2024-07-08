@@ -75,7 +75,7 @@ def create_hit(
 
         print ("\nYou can work the HIT here:")
         hit_type_id = response['HIT']['HITTypeId']
-        workerlink = mturk_environment['preview'] + "?groupId={}".format(hit_type_id)
+        workerlink = f'https://workersandbox.mturk.com/projects/{hit_type_id}/tasks'
         print(workerlink)
 
         print("\nAnd see results here:")

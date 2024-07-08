@@ -8,6 +8,7 @@ import os
 import fitz
 
 import mturktest as mt
+import nanonets_ocr_test as nano
 
 st.set_page_config(layout="wide")
 
@@ -61,8 +62,13 @@ if ss.pdf_ref:
         </style>    
         """
         st.markdown(title_alignment, unsafe_allow_html=True)
-        path = os.path.join("pages", "output.xlsx")
-        output = pd.read_excel(path)
+        try:
+            output = nano.get_ocr_df()
+        except Exception as e:
+            print(e)
+            path = os.path.join("pages", "output.xlsx")
+            output = pd.read_excel(path)
+
         st.dataframe(output, height = 500)       
 
     col3, col4 = st.columns([15, 15], gap="large")
