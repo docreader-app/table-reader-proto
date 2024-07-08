@@ -1,0 +1,124 @@
+<HTMLQuestion xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2011-11-11/HTMLQuestion.xsd">
+  <HTMLContent><![CDATA[
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+<crowd-form answer-format="flatten-objects">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Digitization Instructions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .instructions {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .links {
+            margin-bottom: 20px;
+        }
+        .links a {
+            display: block;
+            margin: 10px 0;
+            color: #2980b9;
+            text-decoration: none;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Data Digitization Instructions</h1>
+        
+        <div class="links">
+            <h2>Resources</h2>
+            <a href="https://drive.google.com/uc?export=download&id=18jetpFrdFSoUfbr1EM9JaCE0skaJhCnS" target="_blank">Download PDF</a>
+            <a href="https://docs.google.com/spreadsheets/d/1VZaJ5CUrCoFdsUIHasigiWogQAd_uzqT/edit?usp=sharing&ouid=109147029862740909784&rtpof=true&sd=true" target="_blank">Open Google Sheet</a>
+        </div>
+        
+        <div class="instructions">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Download and open the PDF file from the link above.</li>
+                <li>Carefully review the tables and data contained within the PDF file.</li>
+                <li>Open the Google Sheet using the link provided.</li>
+                <li>Manually enter the data from the PDF tables into the corresponding columns in the Google Sheet.</li>
+                <li>Ensure the data is accurately transcribed, maintaining the correct formatting and units.</li>
+                <li>Double-check your entries for any errors or omissions.</li>
+                <li>Highlight any changes you made in the red color.</li>
+                <li>Once completed, save the Google Sheet and notify your supervisor or project manager.</li>
+            </ol>
+        </div>
+        
+        <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>File Upload to Google Drive</title>
+        </head>
+    <body>
+      <h2>Upload a File to Google Drive</h2>
+      <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="fileInput" name="file" />
+        <button type="submit">Upload File</button>
+      </form>
+
+      <div id="output"></div>
+
+      <!-- Include the JavaScript code -->
+      
+
+      
+      <script src="upload.js"></script>
+    </body>
+    </html>
+        
+        <button onclick="showConfirmation()">Confirm Completion</button>
+    </div>
+    
+    <script>
+        function showConfirmation() {
+            alert('Thank you! Your confirmation has been noted.');
+        }
+    </script>
+</body>
+</html>
+
+
+</crowd-form>
+]]>
+  </HTMLContent>
+  <FrameHeight>450</FrameHeight>
+</HTMLQuestion>
