@@ -5,8 +5,7 @@ from streamlit_pdf_viewer import pdf_viewer
 import time
 import base64
 import os
-import fitz
-
+import pymupdf
 import mturktest as mt
 import nanonets_ocr_test as nano
 
@@ -15,7 +14,7 @@ st.set_page_config(layout="wide")
 st.write(ss.pdf_ref)
 st.write(ss.pdf_ref.name)
 
-pdf_holder = fitz.open(stream=ss.pdf_ref.getvalue())
+pdf_holder = pymupdf.open(stream=ss.pdf_ref.getvalue())
 
 def displayPDF():
     # Opening file from file path
