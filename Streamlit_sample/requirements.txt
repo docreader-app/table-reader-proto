@@ -1,3 +1,4 @@
+python-dotenv
 xmltodict
 pandas
 streamlit_pdf_viewer
