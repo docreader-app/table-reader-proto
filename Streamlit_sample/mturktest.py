@@ -9,8 +9,8 @@ import streamlit as st
 
 load_dotenv('awskeys.env')
 
-os.environ['AWS_ACCESS_KEY_ID'] = st.secret('ACCESS_KEY')
-os.environ['AWS_SECRET_ACCESS_KEY'] = st.secret('SECRET_KEY')
+os.environ['AWS_ACCESS_KEY_ID'] = st.secrets('ACCESS_KEY')
+os.environ['AWS_SECRET_ACCESS_KEY'] = st.secrets('SECRET_KEY')
 
 environments = {
             "live": {
