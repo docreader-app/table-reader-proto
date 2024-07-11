@@ -1,4 +1,4 @@
-
+xmltodict
 pandas
 streamlit_pdf_viewer
 pymupdf
