@@ -5,14 +5,12 @@ import xmltodict
 import json
 from dotenv import load_dotenv
 import os
+import streamlit as st
 
 load_dotenv('awskeys.env')
 
-ACCESS_KEY = os.getenv('ACCESS_KEY')
-SECRET_KEY = os.getenv('SECRET_ACCESS_KEY')
-
-os.environ['AWS_ACCESS_KEY_ID'] = ACCESS_KEY
-os.environ['AWS_SECRET_ACCESS_KEY'] = SECRET_KEY
+os.environ['AWS_ACCESS_KEY_ID'] = st.secret('ACCESS_KEY')
+os.environ['AWS_SECRET_ACCESS_KEY'] = st.secret('SECRET_KEY')
 
 environments = {
             "live": {
