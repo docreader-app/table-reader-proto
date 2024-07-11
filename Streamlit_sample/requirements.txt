@@ -1,6 +1,8 @@
+
 pandas
 streamlit_pdf_viewer
 pymupdf
+boto3
 numpy
 streamlit-aggrid
 fitz
